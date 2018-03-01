@@ -1,0 +1,145 @@
+---
+defs:
+  - &home-page
+    shortdef: 'Layout.Box(orientation: vertical)'
+    slots:
+      contents:
+        - type: ContentGroup.ContentGroup
+          slots:
+            title: 'ContentGroup.StaticText(label: !translate Today)'
+            arrangement:
+              type: Arrangement.Pianola
+              slots:
+                card: 'Card.Default(excluded_types: [0, 1])'
+            selection:
+              type: Selection.All
+              id: today
+              slots:
+                filter:
+                  type: Filter.Articles
+                  slots:
+                    sub-filter: 'Filter.Tagged(tag: Astronomers, invert: true)'
+                    # should be "recipe"
+                    # implement "today" somehow
+        - type: ContentGroup.ContentGroup
+          slots:
+            title:
+              type: ContentGroup.StaticText
+              properties:
+                label: !translate Editor's Picks
+            arrangement:
+              shortdef: 'Arrangement.Thirties(max-rows: 1)'
+              slots:
+                card: 'Card.Default(excluded_types: [0, 2])'
+            selection:
+              type: Selection.All
+              slots:
+                filter:
+                  type: Filter.OtherGroup
+                  references:
+                    other: today
+                  slots:
+                    sub-filter:
+                      type: Filter.Articles
+                      slots:
+                        sub-filter:
+                          type: Filter.Tagged
+                          properties:
+                            tag: Astronomers
+                            invert: true
+                          # should be "recipe" + "editors picks"
+        - type: ContentGroup.ContentGroup
+          properties:
+            paginate: true
+            cards-per-page: 3
+          slots:
+            title: 'ContentGroup.StaticText(label: !translate Categories)'
+            arrangement:
+              shortdef: 'Arrangement.Thirties(max-height: 80)'
+              # max-height doesn't exist, requires patch
+              slots:
+                card: Card.Title
+            selection: Selection.AllSets
+        - type: ContentGroup.ContentGroup
+          slots:
+            title:
+              type: ContentGroup.StaticText
+              properties:
+                label: !translate Featured GNOME Chefs
+            arrangement:
+              shortdef: 'Arrangement.Thirties(max-rows: 2, max-height: 100)'
+              # max-height doesn't exist, requires patch
+              slots:
+                card: Card.List
+            selection:
+              type: Selection.All
+              slots:
+                filter: 'Filter.Tagged(tag: Astronomers)'
+                # should be "chef"
+
+  - &search-page
+    type: Layout.InfiniteScrolling
+    references:
+      lazy-load: search-results
+    slots:
+      content:
+        type: ContentGroup.ContentGroup
+        slots:
+          arrangement:
+            type: Arrangement.Thirties
+            slots:
+              card: 'Card.Default(excluded_types: [0, 2])'
+          selection:
+            type: Selection.Search
+            id: search-results
+            slots:
+              filter: Filter.Articles
+          no-results:
+            type: ContentGroup.NoResultsMessage
+            properties:
+              valign: center
+              halign: center
+              justify: center
+
+  - &set-page
+    shortdef: 'Layout.Box(orientation: vertical)'
+    slots:
+      contents:
+      - type: Banner.Set
+        slots:
+          card: Card.List
+      - type: Layout.InfiniteScrolling
+        references:
+          lazy-load: set-content
+        slots:
+          content:
+            type: ContentGroup.ContentGroup
+            slots:
+              arrangement:
+                type: Arrangement.Thirties
+                slots:
+                  card: 'Card.Default(excluded_types: [0, 2])'
+              selection:
+                type: Selection.ContentForSet
+                id: set-content
+
+root:
+  type: Controller.Mesh
+  slots:
+    window:
+      type: Window.Simple
+      slots:
+        search: Navigation.SearchBox
+        content:
+          type: Pager.Simple
+          slots:
+            home-page:
+              type: Layout.Scrolling
+              slots:
+                content: *home-page
+            set-page: *set-page
+            search-page: *search-page
+            article-page:
+              type: Layout.ArticleStack
+              slots:
+                article: 'View.Document(show-titles: false)'

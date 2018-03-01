@@ -1,0 +1,50 @@
+diff --git a/js/app/modules/arrangement/thirties.js b/js/app/modules/arrangement/thirties.js
+index 9d26afe66..877e75be5 100644
+--- a/js/app/modules/arrangement/thirties.js
++++ b/js/app/modules/arrangement/thirties.js
+@@ -27,6 +27,7 @@ const _ThirtiesLayout = new Knowledge.Class({
+ 
+     _init: function (props={}) {
+         this.max_rows = 0;
++        this.max_height = 0;
+ 
+         this.parent(props);
+     },
+@@ -91,6 +92,8 @@ const _ThirtiesLayout = new Knowledge.Class({
+     },
+ 
+     _get_card_height: function (width) {
++        if (this.max_height)
++            return this.max_height;
+         let small_mode = (width < CARD_WIDTH_THRESHOLD * COL_COUNT);
+         return small_mode ? CARD_HEIGHT_SMALL : CARD_HEIGHT_BIG;
+     },
+@@ -118,6 +121,11 @@ var Thirties = new Module.Class({
+             'The maximum number of card rows to be displayed.',
+             GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
+             0, GLib.MAXUINT16, 0),
++
++        'max-height': GObject.ParamSpec.uint('max-height', 'Maximum height',
++            'The maximum height of each card in pixels (zero to disable)',
++            GObject.ParamFlags.READWRITE | GObject.ParamFlags.CONSTRUCT_ONLY,
++            0, 99999, 0),
+     },
+ 
+     _init: function (props={}) {
+@@ -172,4 +180,16 @@ var Thirties = new Module.Class({
+         this.notify('max-rows');
+         this._layout.queue_resize();
+     },
++
++    get max_height() {
++        return this._layout.max_height;
++    },
++
++    set max_height(value) {
++        if (this._layout.max_height === value)
++            return;
++        this._layout.max_height = value;
++        this.notify('max-height');
++        this._layout.queue_resize();
++    },
+ });

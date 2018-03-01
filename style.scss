@@ -1,0 +1,54 @@
+@import 'default';
+
+.WindowSimple {
+    background: gray;
+}
+
+.LayoutScrolling .frame,
+.LayoutInfiniteScrolling viewport {
+    margin-left: 15rem;
+    margin-right: 15rem;
+}
+
+.ContentGroupContentGroup {
+    margin-top: 1rem;;
+    margin-bottom: 2rem;
+
+    &__paginate {
+        font-size: 1.2em;
+        padding: 10px 20px;
+        margin-top: 20px;
+    }
+
+    &__title {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+}
+
+.CardTitle {
+    background-color: white;
+    box-shadow: 0px 2px 3px transparentize(black, 1 - 0.40);
+    padding: 10px;
+    border-bottom: 4px solid #204a87;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.BannerSet .CardList {
+    margin-left: 15rem;
+    margin-right: 15rem;
+    background-color: transparent;
+    border: 0px none;
+    box-shadow: none;
+}
+
+/* No way to disable the synopsis on Card.List, make it invisible instead */
+.CardList__synopsis {
+    color: transparent;
+}
+
+/* Requires Juan Pablo's patch to remove WidgetCoverFrame */
+.CardList__thumbnail frame {
+    background-position: top;
+}
