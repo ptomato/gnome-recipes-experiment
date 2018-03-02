@@ -142,4 +142,4 @@ root:
             article-page:
               type: Layout.ArticleStack
               slots:
-                article: 'View.Document(show-titles: false)'
+                article: 'View.Document(show-toc: true, show-titles: false)'

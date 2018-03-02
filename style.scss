@@ -52,3 +52,8 @@
 .CardList__thumbnail frame {
     background-position: top;
 }
+
+.ViewDocument__toolbarFrame,
+.LayoutArticleStack {
+    background-color: $primary-dark-color;
+}
