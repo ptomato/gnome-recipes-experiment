@@ -1,6 +1,6 @@
 ## GNOME Recipes Experiment ##
 
-GNOME Recipes UI, Endless Astronomy content.
+GNOME Recipes UI and content, bolted on top of Endless Astronomy app.
 
 Set up with:
 ```bash
@@ -9,7 +9,7 @@ mkdir -p ~/flapjack/checkout
 cd ~/flapjack/checkout
 git clone https://github.com/ptomato/gnome-recipes-experiment
 pip3 install --user flapjack
-curl -O ~/.config/flapjack.ini https://github.com/endlessm/flapjack/blob/master/example.flapjack.ini
+wget -O ~/.config/flapjack.ini https://raw.githubusercontent.com/endlessm/flapjack/master/example.flapjack.ini
 flapjack setup
 
 # front-end
@@ -28,6 +28,10 @@ flapjack build
 mkdir recipes
 cd recipes
 wget -r -np -R "*index.html*" https://static.gnome.org/recipes/v1/
+cd ..
+cd recipes/static.gnome.org/recipes/v1/
+tar xf data.tar.gz
+cd -
 flapjack shell
 gjs basin-recipes.js recipes/static.gnome.org/recipes/v1 recipes/basin_manifest.json
 basin recipes/basin_manifest.json recipes/output.shard
