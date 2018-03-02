@@ -18,8 +18,7 @@ defs:
                 filter:
                   type: Filter.Articles
                   slots:
-                    sub-filter: 'Filter.Tagged(tag: Astronomers, invert: true)'
-                    # should be "recipe"
+                    sub-filter: 'Filter.Tagged(tag: Chefs, invert: true)'
                     # implement "today" somehow
         - type: ContentGroup.ContentGroup
           slots:
@@ -45,9 +44,9 @@ defs:
                         sub-filter:
                           type: Filter.Tagged
                           properties:
-                            tag: Astronomers
+                            tag: Chefs
                             invert: true
-                          # should be "recipe" + "editors picks"
+                          # implement "editors picks" somehow
         - type: ContentGroup.ContentGroup
           properties:
             paginate: true
@@ -59,7 +58,10 @@ defs:
               # max-height doesn't exist, requires patch
               slots:
                 card: Card.Title
-            selection: Selection.AllSets
+            selection:
+              type: Selection.AllSets
+              slots:
+                filter: 'Filter.Tagged(tag: Chefs, invert: true)'
         - type: ContentGroup.ContentGroup
           slots:
             title:
@@ -74,8 +76,7 @@ defs:
             selection:
               type: Selection.All
               slots:
-                filter: 'Filter.Tagged(tag: Astronomers)'
-                # should be "chef"
+                filter: 'Filter.Tagged(tag: Chefs)'
 
   - &search-page
     type: Layout.InfiniteScrolling
