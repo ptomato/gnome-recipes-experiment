@@ -1,0 +1,41 @@
+From 976097cf44e0a5a9d2a0f4856cdce76d4a7aad96 Mon Sep 17 00:00:00 2001
+From: Martin Abente Lahaye <martin@endlessm.com>
+Date: Fri, 2 Mar 2018 04:50:57 -0300
+Subject: [PATCH] basin: quick hacks
+
+---
+ src/packer.js | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/src/packer.js b/src/packer.js
+index 117392f..c91d3c0 100644
+--- a/src/packer.js
++++ b/src/packer.js
+@@ -80,12 +80,21 @@ var Packer = new Lang.Class ({
+             metadata['@id'] =  EKN_PREFIX + content_hash;
+         }
+ 
+-        metadata['@type'] = this._get_object_type(metadata['contentType']);
++        let content_type = null;
++        if (metadata['contentType'])
++            content_type = metadata['contentType'];
+ 
++        if (!metadata['@type'])
++            metadata['@type'] = this._get_object_type(metadata['contentType']);
++
++        let content_file = null;
++        if (metadata['source'])
++            content_file = Gio.File.new_for_path(metadata['source']);
++
++        metadata['source'] = metadata['sourceName'];
+         let metadata_file = this._dump_to_file(metadata);
+-        let content_file = Gio.File.new_for_path(metadata['source']);
+ 
+-        this._shard.add(content_hash, metadata['contentType'], metadata_file, content_file);
++        this._shard.add(content_hash, content_type, metadata_file, content_file);
+ 
+         if (!('indexed' in metadata) || metadata['indexed'])
+             this._index.add(metadata);
+-- 
+2.9.5
+
