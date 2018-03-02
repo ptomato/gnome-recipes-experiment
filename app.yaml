@@ -51,7 +51,7 @@ defs:
         - type: ContentGroup.ContentGroup
           properties:
             paginate: true
-            cards-per-page: 3
+            cards-per-page: 6
           slots:
             title: 'ContentGroup.StaticText(label: !translate Categories)'
             arrangement:
